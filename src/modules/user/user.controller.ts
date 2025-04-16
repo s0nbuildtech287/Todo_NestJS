@@ -5,11 +5,13 @@ import {
   Get,
   Param,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
+import { LoggingMiddleware } from 'src/middleware/logging/logging.middleware';
 
 @Controller('user')
 @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))

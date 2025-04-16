@@ -7,9 +7,9 @@ import {
 } from 'class-validator';
 
 export class CreateUserDto {
-  @IsString()
+  @IsString({ message: 'Tên phải là kí tự' })
   @IsNotEmpty()
-  @Length(3, 50)
+  @Length(3, 50, { message: 'Tên phải từ 3 đến 50 kí tự' })
   name: string;
 
   @IsEmail()

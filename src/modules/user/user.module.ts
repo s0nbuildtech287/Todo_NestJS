@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../../entities/user.entity';
+import { RoleMiddleware } from 'src/middleware/role/role.middleware';
 
 @Module({
   controllers: [UserController],
@@ -10,4 +11,10 @@ import { User } from '../../entities/user.entity';
   exports: [UserService],
   imports: [TypeOrmModule.forFeature([User])],
 })
-export class UserModule {}
+export class UserModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(RoleMiddleware) // Đăng ký RoleMiddleware
+      .forRoutes({ path: 'user/:id', method: RequestMethod.GET });
+  }
+}
