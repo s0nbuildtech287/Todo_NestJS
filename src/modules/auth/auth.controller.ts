@@ -10,6 +10,7 @@ import {
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { LocalAuthGuard } from 'src/guards/local-auth.guard';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -29,4 +30,12 @@ export class AuthController {
     return this.authService.loginjwt(request.user);
   }
   //giải mã jwt
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  async getProfile(@Request() req) {
+    return {
+      message: 'Profile decoded from JWT',
+      user: req.user,
+    };
+  }
 }
