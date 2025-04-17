@@ -32,7 +32,7 @@ export class AuthController {
   //giải mã jwt
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  async getProfile(@Request() req) {
+  async getProfile(@Request() req: any) {
     return {
       message: 'Profile decoded from JWT',
       user: req.user,
