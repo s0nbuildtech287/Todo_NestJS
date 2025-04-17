@@ -3,9 +3,12 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { Logger } from '@nestjs/common';
 import { LoggingMiddleware } from './middleware/logging/logging.middleware';
+import * as dotenv from 'dotenv';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  //config dotenv
+  dotenv.config();
   //middleware global
   // app.use(new LoggingMiddleware().use);
   //cấu hình swagger

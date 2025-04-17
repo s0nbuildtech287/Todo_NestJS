@@ -17,4 +17,4 @@ export class UserModule {
       .apply(RoleMiddleware) // Đăng ký RoleMiddleware
       .forRoutes({ path: 'user/:id', method: RequestMethod.GET });
   }
-}
+} 

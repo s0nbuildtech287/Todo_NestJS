@@ -8,6 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './entities/user.entity';
 import { Todo } from './entities/todo.entity';
 import { LoggingMiddleware } from './middleware/logging/logging.middleware';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { LoggingMiddleware } from './middleware/logging/logging.middleware';
     }),
     UserModule,
     TodoModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
