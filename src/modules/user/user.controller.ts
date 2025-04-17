@@ -32,7 +32,7 @@ export class UserController {
   async getOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
-  //Thêm người dùng
+  //Thêm người dùngg
   @Post()
   create(@Body(new ValidationPipe()) user: CreateUserDto) {
     return this.userService.create(user);
