@@ -22,7 +22,7 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     UserModule,
     PassportModule,
-    //ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true }),
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'xu4sn0n',
       signOptions: { expiresIn: '1h' },

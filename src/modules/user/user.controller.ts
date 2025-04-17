@@ -12,6 +12,8 @@ import {
 import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
 import { LoggingMiddleware } from 'src/middleware/logging/logging.middleware';
+import { User } from 'src/entities/user.entity';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
 @Controller('user')
 @UsePipes(new ValidationPipe({ transform: true, whitelist: true }))
@@ -25,6 +27,7 @@ export class UserController {
     return this.userService.findAll();
   }
   //Lấy người dùng theo id
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   async getOne(@Param('id') id: string) {
     return this.userService.findOne(id);
@@ -35,6 +38,7 @@ export class UserController {
     return this.userService.create(user);
   }
   //Cập nhật thông tin người dùng
+  @UseGuards(JwtAuthGuard)
   @Post('/:id')
   update(
     @Param('id') id: string,
