@@ -4,9 +4,9 @@ import { User } from '../../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
 import * as bcrypt from 'bcrypt';
-import { UserNotFoundException } from 'src/commons/exceptions/user-not-found.exception';
-import { InvalidPasswordException } from 'src/commons/exceptions/invalid-password.exception';
-import { EmailAlreadyExistsException } from 'src/commons/exceptions/email-already-exists.exception';
+import { UserNotFoundException } from 'src/commons/exceptions/exception_user/user-not-found.exception';
+import { InvalidPasswordException } from 'src/commons/exceptions/exception_user/invalid-password.exception';
+import { EmailAlreadyExistsException } from 'src/commons/exceptions/exception_user/email-already-exists.exception';
 
 @Injectable()
 export class UserService {
