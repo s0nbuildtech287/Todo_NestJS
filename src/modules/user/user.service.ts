@@ -4,6 +4,9 @@ import { User } from '../../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
 import * as bcrypt from 'bcrypt';
+import { UserNotFoundException } from 'src/commons/exceptions/user-not-found.exception';
+import { InvalidPasswordException } from 'src/commons/exceptions/invalid-password.exception';
+import { EmailAlreadyExistsException } from 'src/commons/exceptions/email-already-exists.exception';
 
 @Injectable()
 export class UserService {
@@ -21,7 +24,7 @@ export class UserService {
   async findOne(id: string): Promise<User> {
     const user = await this.userRepository.findOneBy({ id: parseInt(id) });
     if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new UserNotFoundException(id);
     }
     return user;
   }
@@ -34,7 +37,7 @@ export class UserService {
   async validateUser(email: string, password: string) {
     const user = await this.findByEmail(email);
     if (!user) {
-      throw new NotFoundException(`User with email ${email} not found`);
+      throw new UserNotFoundException(email);
     }
     // Kiểm tra xem mật khẩu có được mã hóa hay không
     let isPasswordValid: boolean;
@@ -46,7 +49,7 @@ export class UserService {
       isPasswordValid = password === user.password;
     }
     if (!isPasswordValid) {
-      throw new NotFoundException(`Password is incorrect`);
+      throw new InvalidPasswordException();
     }
     return user;
   }
@@ -64,9 +67,7 @@ export class UserService {
       email: createUserDto.email,
     });
     if (existingUser) {
-      throw new NotFoundException(
-        `Email ${createUserDto.email} already exists`,
-      );
+      throw new EmailAlreadyExistsException(createUserDto.email);
     }
     return this.userRepository.save(user);
   }
@@ -77,7 +78,7 @@ export class UserService {
       id: parseInt(id),
     });
     if (!existingUser) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new UserNotFoundException(id);
     }
     // Cập nhật các thuộc tính từ DTO vào existingUser
     Object.assign(existingUser, updateUserDto);
@@ -88,7 +89,7 @@ export class UserService {
   async delete(id: string): Promise<void> {
     const user = await this.userRepository.findOneBy({ id: parseInt(id) });
     if (!user) {
-      throw new NotFoundException(`User with id ${id} not found`);
+      throw new UserNotFoundException(id);
     }
     await this.userRepository.remove(user);
   }
